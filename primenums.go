@@ -1,12 +1,8 @@
 package main
 
-import (
-	"fmt"
-)
-
 func generatePrime(count int) (arr []int) {
 	/***
-	  Generates a number up to a counte and returns a map
+	  Generates a number up to a count and returns a map
 	  **/
 	arr = make([]int, count)
 	ch := make(chan int)
@@ -16,14 +12,14 @@ func generatePrime(count int) (arr []int) {
 		ch1 := make(chan int)
 		go filter(ch, ch1, prime)
 		ch = ch1
-		fmt.Println(prime)
+		// fmt.Println(prime)
 		arr[i] = prime
 	}
 	return arr
 }
 
 func main() {
-	fmt.Println(generatePrime(10))
+	generatePrime(10000)
 }
 
 func generate(ch chan int) {
