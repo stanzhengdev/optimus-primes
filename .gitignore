@@ -1,3 +1,4 @@
+*.db*
 .DS_STORE
 data/*.txt
 data/*.zip
