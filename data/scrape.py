@@ -23,7 +23,18 @@ def download_files(start=1, end=2):
         parse_zip_file(unzip_file(BASE_URL.format(page_num)))
     pass
 
+def parse_zip_file(inputfile):
+    """Reads and converts byte buffet in file input"""
+    for line in inputfile.readlines():
+        if "primes.utm.edu" in str(line):
+            continue
+        for prime in line.decode('utf-8').split():
+            print(str(prime))
+    pass
+
+
 def main():
+    download_files()
     pass
 
 if __name__ == '__main__':
