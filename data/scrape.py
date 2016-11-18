@@ -17,8 +17,10 @@ def unzip_file(file_url):
         extracted_file = zipfile.open(file_name)
         return extracted_file
 
-def download_files(start=0, end=50):
+def download_files(start=1, end=2):
     """Iterate over the primes on the site"""
+    for page_num in range(start, end):
+        parse_zip_file(unzip_file(BASE_URL.format(page_num)))
     pass
 
 def main():
