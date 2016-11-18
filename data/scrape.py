@@ -3,6 +3,20 @@
 from io import BytesIO
 from zipfile import ZipFile
 import requests
+import sqlite3
+
+conn = sqlite3.connect('primes.db')
+db = conn.cursor()
+
+def init_db():
+    """Initialize to check create"""
+    # Create table
+    try:
+        db.execute('''CREATE TABLE numbers
+                    (id integer primary key, num text)''')
+    except Exception:
+        # Table and Database has already been initalized
+        pass
 
 BASE_URL = "http://primes.utm.edu/lists/small/millions/primes{}.zip"
 
@@ -40,11 +54,12 @@ def parse_zip_file(inputfile):
         if "primes.utm.edu" in str(line):
             continue
         for prime in line.decode('utf-8').split():
-            print(str(prime))
+            db.execute("INSERT INTO numbers(num) VALUES({})".format(str(prime)))
     pass
 
 
 def main():
+    init_db()
     download_files()
     pass
 
