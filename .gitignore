@@ -1,5 +1,7 @@
 .DS_STORE
-=======
+data/*.txt
+data/*.zip
+
 # Compiled Object files, Static and Dynamic libs (Shared Objects)
 *.o
 *.a
