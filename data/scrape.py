@@ -42,7 +42,7 @@ def save_file(req):
                 #f.flush() commented by recommendation from J.F.Sebastian
             return local_filename
 
-def download_files(start=1, end=3):
+def download_files(start=1, end=50):
     """Iterate over the primes on the site"""
     for page_num in range(start, end):
         parse_zip_file(unzip_file(BASE_URL.format(page_num)))
