@@ -7,6 +7,7 @@ import (
 	"log"
 	"net/http"
 	"os"
+	"strconv"
 	"strings"
 
 	"github.com/gorilla/mux"
@@ -16,6 +17,7 @@ func parsePrimes(start, end int) {
 
 }
 
+// Removes filterEmpty
 func filterEmpty(v string) bool {
 	return v != ""
 }
@@ -49,7 +51,30 @@ func fileOpen(f, limit int) (lines []string) {
 // PrimeHandler parses request and serves back a range
 func PrimeHandler(w http.ResponseWriter, r *http.Request) {
 	// w.Write([]byte(fileOpen(1, 100)))
-	resp, _ := json.Marshal(fileOpen(1, 100))
+	var count, start, end int
+	query := r.URL.Query()
+	c := query.Get("count")
+	s := query.Get("start")
+	e := query.Get("end")
+	if c == "" {
+		count = 100
+	} else {
+		count, _ = strconv.Atoi(c)
+	}
+
+	if s == "" {
+		start = 0
+	} else {
+		start, _ = strconv.Atoi(s)
+	}
+
+	if e == "" {
+		end = 0
+	} else {
+		end, _ = strconv.Atoi(e)
+	}
+	nums := fileOpen(1, count)[start:end]
+	resp, _ := json.Marshal(nums)
 	w.Header().Set("Content-Type", "application/json")
 	w.Write(resp)
 }
