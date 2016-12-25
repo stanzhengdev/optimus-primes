@@ -24,8 +24,8 @@ func filterEmpty(v string) bool {
 
 func fileOpen(f, limit int) (lines []string) {
 	fname := fmt.Sprintf("data/primes%d.txt", f)
-	count := 0
 	strip := 2
+	count := 0
 	file, err := os.Open(fname) // For read access.
 	if err != nil {
 		log.Fatal(err)
@@ -51,10 +51,11 @@ func fileOpen(f, limit int) (lines []string) {
 // PrimeHandler parses request and serves back a range
 func PrimeHandler(w http.ResponseWriter, r *http.Request) {
 	// w.Write([]byte(fileOpen(1, 100)))
-	var count, start, end int
+	var count, start, end, rangeStart int
 	query := r.URL.Query()
 	c := query.Get("count")
 	s := query.Get("start")
+	rs := query.Get("rangeStart")
 	e := query.Get("end")
 	if c == "" {
 		count = 100
@@ -68,12 +69,18 @@ func PrimeHandler(w http.ResponseWriter, r *http.Request) {
 		start, _ = strconv.Atoi(s)
 	}
 
+	if rs == "" {
+		rangeStart = 0
+	} else {
+		rangeStart, _ = strconv.Atoi(rs)
+	}
+
 	if e == "" {
 		end = 0
 	} else {
 		end, _ = strconv.Atoi(e)
 	}
-	nums := fileOpen(1, count)[start:end]
+	nums := fileOpen(1, count+rangeStart)[start+rangeStart : end+rangeStart]
 	resp, _ := json.Marshal(nums)
 	w.Header().Set("Content-Type", "application/json")
 	w.Write(resp)
