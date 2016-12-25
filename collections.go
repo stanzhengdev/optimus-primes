@@ -1,3 +1,22 @@
+// We often need our programs to perform operations on
+// collections of data, like selecting all items that
+// satisfy a given predicate or mapping all items to a new
+// collection with a custom function.
+
+// In some languages it's idiomatic to use [generic](http://en.wikipedia.org/wiki/Generic_programming)
+// data structures and algorithms. Go does not support
+// generics; in Go it's common to provide collection
+// functions if and when they are specifically needed for
+// your program and data types.
+
+// Here are some example collection functions for slices
+// of `strings`. You can use these examples to build your
+// own functions. Note that in some cases it may be
+// clearest to just inline the collection-manipulating
+// code directly, instead of creating and calling a
+// helper function.
+// https://play.golang.org/p/3PNdke3Wia
+
 package main
 
 // Returns the first index of the target string `t`, or
