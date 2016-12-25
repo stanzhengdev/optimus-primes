@@ -16,6 +16,10 @@ func parsePrimes(start, end int) {
 
 }
 
+func filterEmpty(v string) bool {
+	return v != ""
+}
+
 func fileOpen(f, limit int) (lines []string) {
 	fname := fmt.Sprintf("data/primes%d.txt", f)
 	count := 0
@@ -32,10 +36,8 @@ func fileOpen(f, limit int) (lines []string) {
 			continue
 		}
 		line := scanner.Text()
-		fmt.Println(line)
-		// lines += fmt.Sprintf("%d: line %s", count-2, strings.Split(line, " "))
-		// lines += fmt.Sprintf("%s", strings.Split(line, " "))
-		lines = append(lines, strings.Split(strings.TrimSpace(line), " ")...)
+		arr := Filter(strings.Split(strings.TrimSpace(line), " "), filterEmpty)
+		lines = append(lines, arr...)
 		count++
 		if count > limit {
 			break
