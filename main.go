@@ -49,8 +49,10 @@ func fileOpen(f, limit int) (lines []string) {
 }
 
 // PrimeHandler parses request and serves back a range
+// Can handle first 1,000,000 primes in sequence, count is not by value
+// but by `start` and `end` index
 func PrimeHandler(w http.ResponseWriter, r *http.Request) {
-	// w.Write([]byte(fileOpen(1, 100)))
+	// TODO Parse from multiple data files
 	var count, start, end, rangeStart int
 	query := r.URL.Query()
 	c := query.Get("count")
