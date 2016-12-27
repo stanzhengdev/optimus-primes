@@ -17,7 +17,7 @@
 // helper function.
 // https://play.golang.org/p/3PNdke3Wia
 
-package main
+package optimusprime
 
 // Returns the first index of the target string `t`, or
 // -1 if no match is found.

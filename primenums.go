@@ -1,4 +1,4 @@
-package main
+package optimusprime
 
 func generatePrime(count int) (arr []int) {
 	/***
@@ -18,9 +18,9 @@ func generatePrime(count int) (arr []int) {
 	return arr
 }
 
-func main() {
-	generatePrime(10000)
-}
+// func main() {
+// 	generatePrime(10000)
+// }
 
 func generate(ch chan int) {
 	/** Generates numbers sequentially starting from 2

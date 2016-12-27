@@ -1,4 +1,4 @@
-package main
+package optimusprime
 
 import (
 	"bufio"
@@ -9,6 +9,8 @@ import (
 	"os"
 	"strconv"
 	"strings"
+
+	"google.golang.org/appengine"
 
 	"github.com/gorilla/mux"
 )
@@ -54,36 +56,63 @@ func fileOpen(f, limit int) (lines []string) {
 func PrimeHandler(w http.ResponseWriter, r *http.Request) {
 	// TODO Parse from multiple data files
 	var count, start, end, rangeStart int
+	var err error
+	var resp []byte
 	query := r.URL.Query()
 	c := query.Get("count")
+	e := query.Get("end")
 	s := query.Get("start")
 	rs := query.Get("rangeStart")
-	e := query.Get("end")
+	var errs []string
 	if c == "" {
 		count = 100
 	} else {
-		count, _ = strconv.Atoi(c)
+		count, err = strconv.Atoi(c)
+		if err != nil {
+			errs = append(errs, err.Error())
+		}
 	}
 
 	if s == "" {
 		start = 0
 	} else {
-		start, _ = strconv.Atoi(s)
+		start, err = strconv.Atoi(s)
+		if err != nil {
+			errs = append(errs, err.Error())
+		}
 	}
 
 	if rs == "" {
 		rangeStart = 0
 	} else {
-		rangeStart, _ = strconv.Atoi(rs)
+		rangeStart, err = strconv.Atoi(rs)
+		if err != nil {
+			errs = append(errs, err.Error())
+		}
 	}
+	check := func() bool {
+		for _, i := range errs {
+			if i != "" {
+				fmt.Println(i)
+				return false
+			}
+		}
+		return true
+	}()
+	fmt.Println("check")
+	if false && check {
 
-	if e == "" {
-		end = 0
+		if e == "" {
+			end = 0
+		} else {
+			end, _ = strconv.Atoi(e)
+		}
+		nums := fileOpen(1, count+rangeStart)[start+rangeStart : end+rangeStart]
+		resp, _ = json.Marshal(nums)
 	} else {
-		end, _ = strconv.Atoi(e)
+		resp, err = json.Marshal(errs)
+		fmt.Println(err)
 	}
-	nums := fileOpen(1, count+rangeStart)[start+rangeStart : end+rangeStart]
-	resp, _ := json.Marshal(nums)
 	w.Header().Set("Content-Type", "application/json")
 	w.Write(resp)
 }
@@ -94,4 +123,8 @@ func init() {
 	r.HandleFunc("/api/v1", PrimeHandler)
 
 	http.Handle("/", r)
+}
+
+func main() {
+	appengine.Main()
 }
