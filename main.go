@@ -99,8 +99,7 @@ func PrimeHandler(w http.ResponseWriter, r *http.Request) {
 		}
 		return true
 	}()
-	fmt.Println("check")
-	if false && check {
+	if check {
 
 		if e == "" {
 			end = 0
