@@ -102,7 +102,7 @@ func PrimeHandler(w http.ResponseWriter, r *http.Request) {
 	if check {
 
 		if e == "" {
-			end = 0
+			end = 10
 		} else {
 			end, _ = strconv.Atoi(e)
 		}
